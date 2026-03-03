@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FilterBar from './components/FilterBar';
 import ServiceMap from './components/ServiceMap';
 import BucketContainer from './components/BucketContainer';
+import NodePanel from './components/NodePanel';
 import { useDashboardStore } from './store/useDashboardStore';
-import { Search, Bell, Settings, BarChart3, TrendingUp, DollarSign } from 'lucide-react';
+import { Search, Bell, Settings, BarChart3, TrendingUp, DollarSign, Network, GitMerge, Table, Layers, Maximize2, Minimize2 } from 'lucide-react';
 
 const App = () => {
-  const { 
-    currentRole, roles, setRole, addIncident, getFilteredData, 
-    currentParentId, allNodes, overviewLevel, setOverviewLevel, 
-    reset, drillTo 
+  const {
+    currentRole, roles, setRole, addIncident, getFilteredData,
+    currentParentId, allNodes, overviewLevel, setOverviewLevel,
+    reset, drillTo, viewMode, setViewMode
   } = useDashboardStore();
+
+  const [isMapFullscreen, setIsMapFullscreen] = useState(false);
 
   const { isExecutive } = getFilteredData();
 
@@ -23,6 +26,13 @@ const App = () => {
       p = p.parentId ? allNodes.find(n => n.id === p.parentId) : null;
     }
   }
+
+  // ESC to exit fullscreen
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setIsMapFullscreen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   // Mock Real-time Update Effect
   useEffect(() => {
@@ -155,14 +165,82 @@ const App = () => {
 
           <div className="flex flex-col lg:flex-row gap-8 flex-1 min-h-0">
             {/* Left: Service Map */}
-            <section className="flex-[3] flex flex-col min-h-[400px]">
+            <section className={
+              isMapFullscreen
+                ? 'fixed inset-0 z-50 flex flex-col bg-slate-50 p-6'
+                : 'flex-[3] flex flex-col min-h-[400px]'
+            }>
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-xs font-black uppercase tracking-widest text-slate-400">Project Service Topology</h2>
                 <div className="flex items-center gap-4 text-[11px] font-bold">
                   <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-emerald-500" /> Healthy</span>
                   <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-yellow-500" /> Warning</span>
                   <span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-red-500" /> Critical</span>
+                  <button
+                    onClick={() => setIsMapFullscreen(f => !f)}
+                    className="p-1.5 rounded-lg bg-slate-100 hover:bg-indigo-100 hover:text-indigo-600 text-slate-500 transition-colors"
+                    title={isMapFullscreen ? 'Exit fullscreen (Esc)' : 'Fullscreen'}
+                  >
+                    {isMapFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
+                  </button>
                 </div>
+              </div>
+
+              {/* Breadcrumb (fullscreen only) */}
+              {isMapFullscreen && (
+                <div className="flex items-center gap-2 mb-3 px-4 py-2 bg-white rounded-xl border border-slate-200 shadow-sm">
+                  <button
+                    title="Root"
+                    onClick={reset}
+                    className={`text-[10px] font-black px-3 py-1.5 rounded-full transition-colors ${
+                      breadcrumbs.length === 0
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                    }`}
+                  >
+                    L0
+                  </button>
+                  {breadcrumbs.map((node, i) => (
+                    <React.Fragment key={node.id}>
+                      <span className="text-slate-300 text-xs">›</span>
+                      <button
+                        title={node.data.label}
+                        onClick={() => drillTo(node.id)}
+                        className={`text-[10px] font-black px-3 py-1.5 rounded-full transition-colors ${
+                          i === breadcrumbs.length - 1
+                            ? 'bg-indigo-600 text-white'
+                            : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                        }`}
+                      >
+                        L{i + 1}
+                      </button>
+                      <span className="text-[10px] text-slate-400 font-medium">{node.data.label}</span>
+                    </React.Fragment>
+                  ))}
+                </div>
+              )}
+
+              {/* View Mode Toggle */}
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-1">Layout:</span>
+                {[
+                  { mode: 'force',   label: 'Force',   Icon: Network   },
+                  { mode: 'tree',    label: 'Tree',    Icon: GitMerge  },
+                  { mode: 'table',   label: 'Table',   Icon: Table     },
+                  { mode: 'cluster', label: 'Cluster', Icon: Layers    },
+                ].map(({ mode, label, Icon }) => (
+                  <button
+                    key={mode}
+                    onClick={() => setViewMode(mode)}
+                    className={`flex items-center gap-1.5 text-[10px] font-black px-3 py-1.5 rounded-full transition-colors ${
+                      viewMode === mode
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                    }`}
+                  >
+                    <Icon size={11} />{label}
+                  </button>
+                ))}
               </div>
 
               {/* Level Overview Buttons */}
@@ -188,13 +266,16 @@ const App = () => {
                 )}
               </div>
 
-              <ServiceMap />
+              <NodePanel />
+              <ServiceMap key={isMapFullscreen ? 'fs' : 'normal'} />
             </section>
 
-            {/* Right: Buckets */}
-            <section className="flex-[2] min-h-0">
-              <BucketContainer />
-            </section>
+            {/* Right: Buckets (hidden in fullscreen) */}
+            {!isMapFullscreen && (
+              <section className="flex-[2] min-h-0">
+                <BucketContainer />
+              </section>
+            )}
           </div>
         </main>
       </div>

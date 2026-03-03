@@ -133,7 +133,22 @@ export const useDashboardStore = create((set, get) => {
     selectedIncidentId: null,
     overviewLevel: null,
 
+    // --- VIEW MODE ---
+    viewMode: 'force', // 'force' | 'tree' | 'table' | 'cluster'
+
+    // --- ANNOTATIONS ---
+    annotations: {}, // { [incidentId]: string[] }
+
     // --- ACTIONS ---
+    setViewMode: (mode) => set({ viewMode: mode }),
+
+    addAnnotation: (incidentId, text) => set((state) => ({
+      annotations: {
+        ...state.annotations,
+        [incidentId]: [...(state.annotations[incidentId] ?? []), { text, ts: new Date().toLocaleTimeString() }],
+      }
+    })),
+
     setRole: (role) => {
       set({ currentRole: role, selectedNodeId: null, selectedIncidentId: null });
     },
@@ -167,6 +182,7 @@ export const useDashboardStore = create((set, get) => {
     },
 
     setSelection: (nodeId) => {
+      if (nodeId === null) { set({ selectedNodeId: null, selectedIncidentId: null }); return; }
       const state = get();
       const node = state.allNodes.find(n => n.id === nodeId);
       if (!node) return;

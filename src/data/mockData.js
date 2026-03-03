@@ -49,34 +49,34 @@ export const MOCK_DATA = {
 
     // ── LEVEL 3: Services ────────────────────────────────────────────────
     // g1 → payment-workloads
-    { id: 's1', projectId: 'p1', parentId: 'g1', level: 3, type: 'groupNode',   data: { label: 'payment-api',       health: 'Critical' }, position: { x: 0,   y: 0  } }, // has L4 pods
-    { id: 's2', projectId: 'p1', parentId: 'g1', level: 3, type: 'serviceNode', data: { label: 'payment-processor', health: 'Warning'  }, position: { x: 180, y: 0  } },
-    { id: 's3', projectId: 'p1', parentId: 'g1', level: 3, type: 'serviceNode', data: { label: 'fraud-detector',    health: 'Healthy'  }, position: { x: 90,  y: 90 } },
+    { id: 's1', projectId: 'p1', parentId: 'g1', level: 3, type: 'groupNode',   data: { label: 'payment-api',       health: 'Critical', runbook: '/runbooks/payment-api-oom'          }, position: { x: 0,   y: 0  } },
+    { id: 's2', projectId: 'p1', parentId: 'g1', level: 3, type: 'serviceNode', data: { label: 'payment-processor', health: 'Warning',  runbook: '/runbooks/payment-processor-latency' }, position: { x: 180, y: 0  } },
+    { id: 's3', projectId: 'p1', parentId: 'g1', level: 3, type: 'serviceNode', data: { label: 'fraud-detector',    health: 'Healthy',  runbook: '/runbooks/fraud-detector'            }, position: { x: 90,  y: 90 } },
 
     // g2 → order-workloads
-    { id: 's4', projectId: 'p1', parentId: 'g2', level: 3, type: 'serviceNode', data: { label: 'order-api',         health: 'Warning'  }, position: { x: 0,   y: 0 } },
-    { id: 's5', projectId: 'p1', parentId: 'g2', level: 3, type: 'serviceNode', data: { label: 'inventory-service', health: 'Healthy'  }, position: { x: 180, y: 0 } },
+    { id: 's4', projectId: 'p1', parentId: 'g2', level: 3, type: 'serviceNode', data: { label: 'order-api',         health: 'Warning',  runbook: '/runbooks/order-api'         }, position: { x: 0,   y: 0 } },
+    { id: 's5', projectId: 'p1', parentId: 'g2', level: 3, type: 'serviceNode', data: { label: 'inventory-service', health: 'Healthy',  runbook: '/runbooks/inventory-service'  }, position: { x: 180, y: 0 } },
 
     // g3 → cart-workloads
     { id: 's6', projectId: 'p1', parentId: 'g3', level: 3, type: 'serviceNode', data: { label: 'cart-api',     health: 'Healthy' }, position: { x: 0,   y: 0 } },
-    { id: 's7', projectId: 'p1', parentId: 'g3', level: 3, type: 'serviceNode', data: { label: 'session-store', health: 'Healthy' }, position: { x: 160, y: 0 } },
+    { id: 's7', projectId: 'p1', parentId: 'g3', level: 3, type: 'serviceNode', data: { label: 'session-store', health: 'Healthy', runbook: '/runbooks/redis-session' }, position: { x: 160, y: 0 } },
 
     // g4 → kafka-cluster
-    { id: 's8',  projectId: 'p1', parentId: 'g4', level: 3, type: 'groupNode',   data: { label: 'kafka-brokers',     health: 'Critical' }, position: { x: 0,   y: 0   } }, // has L4 brokers
-    { id: 's9',  projectId: 'p1', parentId: 'g4', level: 3, type: 'serviceNode', data: { label: 'zookeeper-ensemble', health: 'Warning'  }, position: { x: 200, y: 0   } },
+    { id: 's8',  projectId: 'p1', parentId: 'g4', level: 3, type: 'groupNode',   data: { label: 'kafka-brokers',     health: 'Critical', runbook: '/runbooks/kafka-broker-degradation' }, position: { x: 0,   y: 0   } },
+    { id: 's9',  projectId: 'p1', parentId: 'g4', level: 3, type: 'serviceNode', data: { label: 'zookeeper-ensemble', health: 'Warning',  runbook: '/runbooks/zookeeper-quorum'          }, position: { x: 200, y: 0   } },
     { id: 's10', projectId: 'p1', parentId: 'g4', level: 3, type: 'serviceNode', data: { label: 'schema-registry',    health: 'Healthy'  }, position: { x: 100, y: 100 } },
 
     // g5 → flink-jobs
-    { id: 's11', projectId: 'p1', parentId: 'g5', level: 3, type: 'serviceNode', data: { label: 'flink-taskmanager', health: 'Warning'  }, position: { x: 0,   y: 0 } },
+    { id: 's11', projectId: 'p1', parentId: 'g5', level: 3, type: 'serviceNode', data: { label: 'flink-taskmanager', health: 'Warning',  runbook: '/runbooks/flink-checkpoint-failure' }, position: { x: 0,   y: 0 } },
     { id: 's12', projectId: 'p1', parentId: 'g5', level: 3, type: 'serviceNode', data: { label: 'flink-jobmanager',  health: 'Healthy'  }, position: { x: 180, y: 0 } },
 
     // g6 → gateway-services
-    { id: 's13', projectId: 'p1', parentId: 'g6', level: 3, type: 'serviceNode', data: { label: 'api-gateway',  health: 'Healthy' }, position: { x: 0,   y: 0 } },
+    { id: 's13', projectId: 'p1', parentId: 'g6', level: 3, type: 'serviceNode', data: { label: 'api-gateway',  health: 'Healthy', runbook: '/runbooks/api-gateway' }, position: { x: 0,   y: 0 } },
     { id: 's14', projectId: 'p1', parentId: 'g6', level: 3, type: 'serviceNode', data: { label: 'rate-limiter', health: 'Healthy' }, position: { x: 160, y: 0 } },
 
     // g8 → auth-services
-    { id: 's15', projectId: 'p1', parentId: 'g8', level: 3, type: 'serviceNode', data: { label: 'auth-api',       health: 'Healthy' }, position: { x: 0,   y: 0 } },
-    { id: 's16', projectId: 'p1', parentId: 'g8', level: 3, type: 'serviceNode', data: { label: 'token-service',   health: 'Healthy' }, position: { x: 160, y: 0 } },
+    { id: 's15', projectId: 'p1', parentId: 'g8', level: 3, type: 'serviceNode', data: { label: 'auth-api',      health: 'Healthy', runbook: '/runbooks/auth-api'    }, position: { x: 0,   y: 0 } },
+    { id: 's16', projectId: 'p1', parentId: 'g8', level: 3, type: 'serviceNode', data: { label: 'token-service', health: 'Healthy', runbook: '/runbooks/token-service' }, position: { x: 160, y: 0 } },
 
     // g9 → profile-services
     { id: 's17', projectId: 'p1', parentId: 'g9', level: 3, type: 'serviceNode', data: { label: 'profile-api', health: 'Healthy' }, position: { x: 0, y: 0 } },
@@ -86,11 +86,11 @@ export const MOCK_DATA = {
     { id: 's19', projectId: 'p1', parentId: 'g10', level: 3, type: 'serviceNode', data: { label: 'push-notification', health: 'Healthy' }, position: { x: 180, y: 0 } },
 
     // g11 → spark-jobs
-    { id: 's20', projectId: 'p1', parentId: 'g11', level: 3, type: 'serviceNode', data: { label: 'spark-driver',   health: 'Warning'  }, position: { x: 0,   y: 0 } },
-    { id: 's21', projectId: 'p1', parentId: 'g11', level: 3, type: 'serviceNode', data: { label: 'spark-executor', health: 'Healthy'  }, position: { x: 160, y: 0 } },
+    { id: 's20', projectId: 'p1', parentId: 'g11', level: 3, type: 'serviceNode', data: { label: 'spark-driver',   health: 'Warning', runbook: '/runbooks/spark-driver' }, position: { x: 0,   y: 0 } },
+    { id: 's21', projectId: 'p1', parentId: 'g11', level: 3, type: 'serviceNode', data: { label: 'spark-executor', health: 'Healthy' }, position: { x: 160, y: 0 } },
 
     // g12 → data-warehouse
-    { id: 's22', projectId: 'p1', parentId: 'g12', level: 3, type: 'serviceNode', data: { label: 'redshift-cluster', health: 'Healthy' }, position: { x: 0,   y: 0 } },
+    { id: 's22', projectId: 'p1', parentId: 'g12', level: 3, type: 'serviceNode', data: { label: 'redshift-cluster', health: 'Healthy', runbook: '/runbooks/redshift' }, position: { x: 0,   y: 0 } },
     { id: 's23', projectId: 'p1', parentId: 'g12', level: 3, type: 'serviceNode', data: { label: 'glue-etl',          health: 'Healthy' }, position: { x: 170, y: 0 } },
 
     // ── PROJECT 2: Identity & Auth ──────────────────────────────────────
@@ -100,15 +100,15 @@ export const MOCK_DATA = {
 
     // ── LEVEL 4: Pods / Instances ────────────────────────────────────────
     // s1 → payment-api pods  (Path A: c1 → sc1 → g1 → s1 → pods)
-    { id: 'pod1', projectId: 'p1', parentId: 's1', level: 4, type: 'serviceNode', data: { label: 'payment-api-pod-1', health: 'Critical' }, position: { x: 0,   y: 0   } },
-    { id: 'pod2', projectId: 'p1', parentId: 's1', level: 4, type: 'serviceNode', data: { label: 'payment-api-pod-2', health: 'Warning'  }, position: { x: 220, y: 0   } },
+    { id: 'pod1', projectId: 'p1', parentId: 's1', level: 4, type: 'serviceNode', data: { label: 'payment-api-pod-1', health: 'Critical', runbook: '/runbooks/pod-oomkill'  }, position: { x: 0,   y: 0   } },
+    { id: 'pod2', projectId: 'p1', parentId: 's1', level: 4, type: 'serviceNode', data: { label: 'payment-api-pod-2', health: 'Warning',  runbook: '/runbooks/pod-oomkill'  }, position: { x: 220, y: 0   } },
     { id: 'pod3', projectId: 'p1', parentId: 's1', level: 4, type: 'serviceNode', data: { label: 'payment-api-pod-3', health: 'Healthy'  }, position: { x: 110, y: 110 } },
 
     // s8 → kafka-brokers  (Path B: c3 → sc3 → g4 → s8 → brokers)
-    { id: 'broker1', projectId: 'p1', parentId: 's8', level: 4, type: 'serviceNode', data: { label: 'kafka-broker-1', health: 'Critical' }, position: { x: 0,   y: 0   } },
-    { id: 'broker2', projectId: 'p1', parentId: 's8', level: 4, type: 'serviceNode', data: { label: 'kafka-broker-2', health: 'Healthy'  }, position: { x: 200, y: 0   } },
+    { id: 'broker1', projectId: 'p1', parentId: 's8', level: 4, type: 'serviceNode', data: { label: 'kafka-broker-1', health: 'Critical', runbook: '/runbooks/kafka-broker-degradation' }, position: { x: 0,   y: 0   } },
+    { id: 'broker2', projectId: 'p1', parentId: 's8', level: 4, type: 'serviceNode', data: { label: 'kafka-broker-2', health: 'Healthy',  runbook: '/runbooks/kafka-broker-degradation' }, position: { x: 200, y: 0   } },
     { id: 'broker3', projectId: 'p1', parentId: 's8', level: 4, type: 'serviceNode', data: { label: 'kafka-broker-3', health: 'Healthy'  }, position: { x: 400, y: 0   } },
-    { id: 'zk1',     projectId: 'p1', parentId: 's8', level: 4, type: 'serviceNode', data: { label: 'zookeeper-1',    health: 'Warning'  }, position: { x: 100, y: 110 } },
+    { id: 'zk1',     projectId: 'p1', parentId: 's8', level: 4, type: 'serviceNode', data: { label: 'zookeeper-1',    health: 'Warning',  runbook: '/runbooks/zookeeper-quorum'         }, position: { x: 100, y: 110 } },
     { id: 'zk2',     projectId: 'p1', parentId: 's8', level: 4, type: 'serviceNode', data: { label: 'zookeeper-2',    health: 'Healthy'  }, position: { x: 300, y: 110 } },
   ],
 
@@ -146,7 +146,9 @@ export const MOCK_DATA = {
       tool: 'Prometheus',
       status: 'To Do',
       aiRecommendation: 'Pod exceeds 512Mi memory limit. Likely leak in v2.3.1 — rolling back to v2.2.9 recommended.',
-      timestamp: '3 mins ago'
+      timestamp: '3 mins ago',
+      tsOffset: 3,
+      causedBy: 'inc-2',
     },
     {
       id: 'inc-2',
@@ -158,7 +160,9 @@ export const MOCK_DATA = {
       tool: 'Datadog',
       status: 'In Progress',
       aiRecommendation: 'Broker-1 lagging. Consumer group "delivery-processors" at 82k offset lag. Scale broker or rebalance partitions.',
-      timestamp: '8 mins ago'
+      timestamp: '8 mins ago',
+      tsOffset: 8,
+      causedBy: null,
     },
     {
       id: 'inc-3',
@@ -170,7 +174,9 @@ export const MOCK_DATA = {
       tool: 'New Relic',
       status: 'To Do',
       aiRecommendation: 'Latency spike correlates with Kafka broker degradation. Expect self-resolution after broker-1 recovers.',
-      timestamp: '12 mins ago'
+      timestamp: '12 mins ago',
+      tsOffset: 12,
+      causedBy: 'inc-2',
     },
     {
       id: 'inc-4',
@@ -182,7 +188,9 @@ export const MOCK_DATA = {
       tool: 'Prometheus',
       status: 'In Progress',
       aiRecommendation: 'Checkpointing failing due to Kafka connectivity. Root cause is upstream broker-1 degradation.',
-      timestamp: '15 mins ago'
+      timestamp: '15 mins ago',
+      tsOffset: 15,
+      causedBy: 'inc-2',
     },
     {
       id: 'inc-5',
@@ -194,7 +202,9 @@ export const MOCK_DATA = {
       tool: 'Datadog',
       status: 'To Do',
       aiRecommendation: 'Errors originating from payment-api dependency timeouts. Upstream root cause, no direct fix needed.',
-      timestamp: '20 mins ago'
+      timestamp: '20 mins ago',
+      tsOffset: 20,
+      causedBy: 'inc-3',
     },
     {
       id: 'inc-6',
@@ -206,7 +216,9 @@ export const MOCK_DATA = {
       tool: 'Prometheus',
       status: 'To Do',
       aiRecommendation: 'Elevated GC pressure consistent with pod-1 memory leak behavior. Monitor after rollback.',
-      timestamp: '5 mins ago'
+      timestamp: '5 mins ago',
+      tsOffset: 5,
+      causedBy: 'inc-1',
     },
     {
       id: 'inc-7',
@@ -218,7 +230,9 @@ export const MOCK_DATA = {
       tool: 'Datadog',
       status: 'In Progress',
       aiRecommendation: 'ZK quorum degraded due to broker-1 instability. Zookeeper-2 is healthy and holding quorum.',
-      timestamp: '10 mins ago'
+      timestamp: '10 mins ago',
+      tsOffset: 10,
+      causedBy: 'inc-2',
     }
   ],
 
